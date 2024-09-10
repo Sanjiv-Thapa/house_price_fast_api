@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+</head>
+
+<body>
+    <h1>House Price Prediction</h1>
+    <form id="predictionForm">
+        <label for="area">Area (in sq ft):</label><br>
+        <input type="number" id="area" name="area"><br><br>
+
+        <label for="bedrooms">Number of Bedrooms:</label><br>
+        <input type="number" id="bedrooms" name="bedrooms"><br><br>
+
+        <label for="bathrooms">Number of Bathrooms:</label><br>
+        <input type="number" id="bathrooms" name="bathrooms"><br><br>
+
+        <label for="stories">Number of Stories:</label><br>
+        <input type="number" id="stories" name="stories"><br><br>
+
+        <label for="mainroad">Main Road (yes/no):</label><br>
+        <input type="text" id="mainroad" name="mainroad"><br><br>
+
+        <label for="guestroom">Guest Room (yes/no):</label><br>
+        <input type="text" id="guestroom" name="guestroom"><br><br>
+
+        <label for="basement">Basement (yes/no):</label><br>
+        <input type="text" id="basement" name="basement"><br><br>
+
+        <label for="hotwaterheating">Hot Water Heating (yes/no):</label><br>
+        <input type="text" id="hotwaterheating" name="hotwaterheating"><br><br>
+
+        <label for="airconditioning">Air Conditioning (yes/no):</label><br>
+        <input type="text" id="airconditioning" name="airconditioning"><br><br>
+
+        <label for="parking">Parking (number of spaces):</label><br>
+        <input type="number" id="parking" name="parking"><br><br>
+
+        <label for="prefarea">Preferred Area (yes/no):</label><br>
+        <input type="text" id="prefarea" name="prefarea"><br><br>
+
+        <label for="furnishingstatus">Furnishing Status:</label><br>
+        <input type="text" id="furnishingstatus" name="furnishingstatus"><br><br>
+
+        <button type="button" onclick="submitForm()">Predict</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            const form = document.getElementById('predictionForm');
+            const formData = new FormData(form);
+            const jsonObject = {};
+            formData.forEach((value, key) => {
+                jsonObject[key] = value;
+            });
+
+            fetch('http://127.0.0.1:8001/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonObject)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Predicted Price: ' + data.price);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
