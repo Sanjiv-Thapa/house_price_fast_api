@@ -58,7 +58,7 @@
                 jsonObject[key] = value;
             });
 
-            fetch('http://127.0.0.1:8001/predict', {
+            fetch('http://127.0.0.1:8000/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -67,13 +67,15 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    alert('Predicted Price: ' + data.price);
+                    // Redirect to result.html with the predicted price as a query parameter
+                    window.location.href = `/static/result.html?price=${data.price}`;
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         }
     </script>
+
 </body>
 
 </html>
